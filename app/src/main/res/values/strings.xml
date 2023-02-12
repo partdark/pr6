@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">pr6</string>
+    <string name="help_for_intup_message">Писать здесь</string>
+    <string name="button_next_note">Next</string>
+</resources>
