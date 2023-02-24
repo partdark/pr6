@@ -23,6 +23,7 @@ class MainActivity1 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity1)
               val text : EditText = findViewById(R.id.text)
+        text.textSize = textSize
         sheetNumber = getIntent().getIntExtra("sheetNumber",0)
         val buttonNext : Button = findViewById(R.id.next1)
                 buttonNext.setOnClickListener {
@@ -42,15 +43,19 @@ class MainActivity1 : AppCompatActivity() {
 
     override fun onPause() {
         val text : EditText = findViewById(R.id.text)
+        val newSize : EditText = findViewById(R.id.new_size)
         super.onPause()
         val pref = getPreferences(MODE_PRIVATE).edit()
-
+        val prefs = getPreferences(MODE_PRIVATE).edit()
+        prefs.putString("noteSize" + sheetNumber, newSize.text.toString())
         pref.putString("note" + sheetNumber, text.editableText.toString())
         pref.apply()
+        prefs.apply()
     }
 
     override fun onResume() {
         val text : EditText = findViewById(R.id.text)
+        val newSize : EditText = findViewById(R.id.new_size)
         super.onResume()
         val sheet : ConstraintLayout = findViewById(R.id.sheet1)
        sheet.setBackgroundColor(colors[sheetNumber])
@@ -59,6 +64,15 @@ class MainActivity1 : AppCompatActivity() {
         if (saveState !=null) {
             text.setText(saveState)
         }
+        val savState = getPreferences(Context.MODE_PRIVATE).getString("noteSize" + sheetNumber, null)
+        if (savState !=null) {
+            newSize.setText(savState)
+        }
+        if (newSize.length() > 0)
+        {
+            text.textSize =(newSize.text.toString()).toFloat()
+        }
+
     }
 
  fun newSize (view : View) {
